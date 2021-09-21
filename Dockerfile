@@ -20,4 +20,5 @@ ADD run.sh ./run.sh
 RUN chmod +x ./cloudreve
 RUN chmod +x ./run.sh
 
+EXPOSE 8080
 CMD ./run.sh
