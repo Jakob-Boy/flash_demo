@@ -1,24 +1,11 @@
-FROM redis:alpine
+FROM centos:7
 
-# Add glibc package
-COPY ./glibc-2.33-r0.apk /lib/
+RUN yum install -y java-1.8.0-openjdk unzip
 
-# Add glibc key
-RUN wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub
+WORKDIR /root/zfile
 
-# Install glibc
-RUN apk add /lib/glibc-2.33-r0.apk
-
-# Set workdir
-WORKDIR /root/cloudreve
-
-ADD cloudreve ./cloudreve
-ADD conf.ini ./conf.ini
-ADD cloudreve.db ./cloudreve.db
-ADD run.sh ./run.sh
-
-RUN chmod +x ./cloudreve
-RUN chmod +x ./run.sh
+RUN wget https://c.jun6.net/ZFILE/zfile-release.war && unzip zfile-release.war && rm -rf zfile-release.war && chmod +x /root/zfile/bin/*.sh
 
 EXPOSE 8080
-CMD ./run.sh
+
+CMD /root/zfile/bin/start.sh
